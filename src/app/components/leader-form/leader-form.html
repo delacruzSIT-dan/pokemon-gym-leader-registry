@@ -1,1 +1,72 @@
-<p>leader-form works!</p>
+<div class="form-container">
+  <h2>{{ isEditMode() ? 'Edit Gym Leader' : 'Register New Gym Leader' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
+      @if (form.controls.name.touched && form.controls.name.invalid) {
+        <p class="error" role="alert">
+          @if (form.controls.name.hasError('required')) { Name is required. }
+          @if (form.controls.name.hasError('minlength')) { Name must be at least 2 characters long. }
+        </p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="region">Region</label>
+      <select id="region" formControlName="region">
+        @for (reg of regions; track reg) {
+          <option [value]="reg">{{ reg }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="town">Town</label>
+      <input id="town" type="text" formControlName="town" />
+      @if (form.controls.town.touched && form.controls.town.invalid) {
+        <p class="error" role="alert">Town is required.</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="badge">Badge</label>
+      <input id="badge" type="text" formControlName="badge" />
+      @if (form.controls.badge.touched && form.controls.badge.invalid) {
+        <p class="error" role="alert">Badge name is required.</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="specialty">Specialty</label>
+      <input id="specialty" type="text" formControlName="specialty" />
+      @if (form.controls.specialty.touched && form.controls.specialty.invalid) {
+        <p class="error" role="alert">Specialty type is required.</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="aceLevel">Ace Level (1-100)</label>
+      <input id="aceLevel" type="number" min="1" max="100" formControlName="aceLevel" />
+      @if (form.controls.aceLevel.touched && form.controls.aceLevel.invalid) {
+        <p class="error" role="alert">Ace Level must be a whole number between 1 and 100.</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="motto">Motto (Max 150 chars)</label>
+      <textarea id="motto" formControlName="motto" rows="3"></textarea>
+      @if (form.controls.motto.touched && form.controls.motto.invalid) {
+        <p class="error" role="alert">Motto cannot exceed 150 characters.</p>
+      }
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn primary" [disabled]="form.invalid">
+        {{ isEditMode() ? 'Save Changes' : 'Register Leader' }}
+      </button>
+      <a routerLink="/leaders" class="btn secondary">Cancel</a>
+    </div>
+  </form>
+</div>
